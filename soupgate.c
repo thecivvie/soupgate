@@ -75,7 +75,7 @@ const char messageext[5]
    = ".msg";
 
 const char soupmsgext[5]
-   = ".MSG";
+   = ".msg";
 
 const char attachname[][8] = {"ignored","decoded","killed"};
 
