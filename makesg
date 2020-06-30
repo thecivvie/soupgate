@@ -1,0 +1,3 @@
+#!/bin/sh
+gcc soupgate.c config.c lists.c pkt.c import.c export.c -o soupgate &>soupgate.err
+cat soupgate.err | more
