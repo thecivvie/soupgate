@@ -1,0 +1,644 @@
+New in SoupGate v1.05/á-2000-11-02
+
+* Added NNTP authentication support to Spoon
+  (requested by several people)
+
+* Message-ID & References no longer lowercased
+  (requested by several people)
+
+* Added MailinglistOption truncend= to allow the stripping of ads
+  from the top of messages
+
+New in SoupGate v1.05/á-2000-04-24
+
+* Fixed Linux version to always use lowercase for all files EXCEPT
+  the SOUP files (AREAS, REPLIES, *.MSG) because these are specified
+  as being uppercase (hence nothing needed to be changed in Spoon)
+  (reported by loads of people)
+
+* Added new MailingListOption to split up the overloaded MailingList
+  keyword (for backwards compatibility the old form is still supported)
+  (requested by Jose Luis Benitez)
+
+* Added MailingListOption author= option to allow insertion of the
+  author name/email when exporting messages.
+
+* Added SmtpSeparateMail option to Spoon for SMTP servers that insist
+  on a separate MAIL FROM command for every recipient.
+  (requested by Armin Schaefer)
+
+* MSGID/REPLY forced to lowercase
+  (requested by Armin Schaefer)
+
+* Added note to documentation explaining the fact that if SoupGate is
+  unable to recognize the filename, a file will be decoded as 00000000.ATT
+  resp. 00000001.ATT etc.
+
+New in SoupGate v1.05/á-2000-02-16
+
+* Fixed another AddrMap-bug with name translation;
+  as a consequence personal messages now only have meaning
+  for news (not for e-mail)
+  (reported by Vicki Fletcher and others)
+
+* Now adds Errors-To: and Return-Path: headers in hosted mailing
+  lists if a KeeperAddress is defined in the list configuration
+
+* Message-IDs generated for hosted mailing lists will now
+  contain at most one @ sign
+  (requested by Sean Rima)
+
+* Changed SeparateMsg default from No to Yes
+
+* Added short explanation of compressed/uncompressed mail
+  configuration in installation section of documentation,
+  because apparently some people were getting confused
+
+* The source distribution now includes the folding editor I use
+  (DOS application, also runs under Windows, OS/2 or Linux DOSEMU)
+
+New in SoupGate v1.05/á-1999-11-07
+
+NOTE: this beta release is there to fix several serious bugs;
+the people who requested new features will need some more
+patience.
+
+* Fixed several bugs in ArcMail mode, causing messages
+  not to be exported and net/node numbers to be wrong
+  (reported by Richard Menedetter, Simon Avery, and
+   probably a lot of other people)
+
+* Some mailers apparently insert CR/LF pairs instead
+  of only a CR in MSG files; SoupGate now compensates
+  for this erroneous behaviour
+  (reported by Simon Avery)
+
+* Fixed bug in SoupGate that would cause hosted mailing
+  list messages and commands to be processed normally
+  even if they were detected as being junk mail; this
+  could cause quite an interesting game of virtual tennis
+  between SoupGate and "Mail Delivery Subsystem"...
+
+* Fixed bug in SoupGate that caused unwanted quoted-printable
+  translation in header fields (e.g. name=34567890.123 became
+  name"567890.123)
+
+* For non-existing directories, also prints which keyword is
+  associated with it
+
+* Fixed bug in Linux version of SoupGate that caused error 
+  messages when TempDir was not defined and the TEMP
+  environment variable was not found
+
+* Fixed some serious bugs in the Linux version of Spoon
+  (all Spoon versions are now beta, no longer alpha)
+
+* Added an average CPS counter to Spoon
+
+* Removed the message size check from Spoon, because
+  several POP3 servers gave incorrect results
+
+* Spoon now deletes messages directly after they are
+  fetched from the POP3 server, not in batch anymore
+  (requested by Peter Lacus)
+
+* Added option to fetch mail only from certain email
+  addresses from the POP3 server in Spoon
+
+* Updated the email address information in the documentation
+
+New in SoupGate v1.05/á-1999-08-04
+
+* At last: Linux support! See soupgate.tgz for included
+  glibc2 versions (or download sg105_s.tgz for statically
+  linked versions). The default configuration filename etc.
+  has been changed to lowercase (Soup and mail files etc.
+  have not because they are specified as uppercase).
+
+* The format of the soupgate.dat written in the netmail
+  directory if you use an Arcmail-style outbound with
+  the QuickScan feature has changed. However, SoupGate
+  will automatically replace this file with the new
+  format upon the first soupgate export command, and
+  the new format has been designed so that should you
+  move back to an older version there shouldn't be
+  any problems either, so normally you won't need to
+  manually delete or modify soupgate.dat.
+
+* Includes Spoon v1.00, a replacement for Souper. Very
+  primitive at the moment. Versions available for OS/2,
+  Win32 and Linux (glibc2 version included, download
+  sp100_s.tgz for a statically linked version).
+  WARNING TO THE BETATESTERS: ONLY THE OS/2 VERSION HAS
+  BEEN TESTED YET --- the Win32 and Linux versions are
+  to be considered ALPHA versions, even though they
+  are included in this BETA package. Please report
+  your findings with Win32 and Linux.
+  A DOS version for Spoon is not available because there
+  is no decent standardized TCP/IP interface for DOS.
+
+* Because of Spoon inclusion, removed Souper from archive.
+
+* Reply-To: no longer written if same as From: address
+  (requested by Widjoen Pradjitno)
+
+* AreaMap area and newsgroup names are now case insensitive
+  (requested by Sean Rima)
+
+* Fixed an out-of-bounds memory access bug that didn't show
+  up until the port to linux
+
+New in SoupGate v1.04/â-1999-06-28
+
+NOTE: this gamma release is only an intermediate release.
+Development continues, so there should soon be a new beta
+release with extra features. So if you find that a feature
+you requested is not available in this version, that does
+not mean that I am not going to implement it. For updates
+about new beta, gamma or release versions, send a message
+with subject subscribe to the SoupGate mailing list (hosted
+by SoupGate, of course) at soupgate@softhome.net.
+
+* If a message contains a Fidonet address in the MSGID kludge,
+  this will now be used as the From address (avoids problems
+  with From zone and point addresses with mailers/tossers that
+  don't insert correct INTL/FMPT/TOPT kludges); this should fix
+  some of the earlier reported problems with AddrMap!
+
+* Will now recognize the KFS (kill file/sent) and TFS (truncate
+  file/sent) in the FLAGS kludge, causing ArcMail file attaches
+  to be properly removed or truncated even if they are not preceded
+  by ^ or #
+  (requested by Jonathan Gijsen)
+
+* Added definable Reply-To to AddrMap
+  (requested by Richard Menedetter)
+
+* Organization line no longer changed when echoing back mail messages
+  for hosted mailing lists; instead added X-MailListOrg: header;
+  of course this only applies if there was an organization present,
+  e.g. to allow own organization detection by another SoupGate
+  (requested by Richard Menedetter)
+
+* Mailing lists (both MailList and ListConfig) will now
+  use the QuoteTo feature as well as news
+
+* E-mail addresses in To: field for mailing lists will no
+  longer cause the mail to be sent out to both the mailing
+  list address and this e-mail address
+
+* MailList-configured mailing lists will now also include
+  an X-Comment-To: header containing the recipient's name
+
+* Added template name to "+ reply" entry in log file
+
+* The QuoteChar keyword now allows for a specified number
+  of initials to precede the quote character
+
+* File attaches from junk mail no longer decoded
+
+* MIME quoted-printable encoded 0 bytes (=00) will be replaced
+  by spaces; they confuse tossers (and a double 0 aborts the
+  packet)
+
+* When splitting lines for exporting, whitespace will be
+  preferred now; only if that's not available, other
+  characters will be used to split on
+  (requested by Per Riber)
+
+* Added IMPORT/EXPORT option to CharSetMap to allow the
+  conversion to happen only in a specified direction
+  (requested by Peter Lacus)
+
+* When decoding UU/MIME files, instead of overwriting existing
+  files will now automatically rename the file (no human
+  intervention required)
+  (requested by Peter Lacus)
+
+* UU/MIME filenames may now contain a *, in which case they will
+  automatically be renamed to a unique filename (the extension will
+  be kept if that is specified)
+  (requested by Jonathan Gijsen)
+
+* UU-decoding now supports long filenames containing spaces
+  (requested by Catalin T. Bradu)
+
+* Non-existing subdirectories in the configuration file
+  will now cause a fatal error and abort
+  (requested by Jan Hoolwerf)
+
+* Fixed bug that could cause messages to be corrupted when
+  a certain date format was used in a message
+
+* Fixed bug in list packing code causing spurious errors
+  and corrected line numbers in error messages
+
+* Fixed bug with killing and truncating file attaches, which
+  also could cause long junk filenames to be written into the
+  current directory (so if you have these, you can stop worrying
+  about what was causing them and simply delete them)
+
+New in SoupGate v1.04/á-1999-04-27
+
+* Added TransFidoOrg conversion on import for To: addresses
+  (requested by Sean Rima)
+
+* Added < > brackets to BCC: addresses in mailing list,
+  because apparently some SMTP servers otherwise have
+  problems with multiple addresses
+  (reported by Richard Menedetter)
+
+* Fixed bug with EmailArea, OwnOrgArea and JunkArea causing
+  the defaults to be used when recursive configuration files
+  were used
+  (reported by Richard Menedetter)
+
+* Fixed bug introduced in previous beta causing file attach
+  subjects to be messed up
+
+* HeaderInfo's insert option no longer adds any From or To
+  information if it already detects a From: or To: line
+  present (possibly added by e.g. mailing list software)
+
+* Extended StripKludges keyword so it's much more flexible
+
+* Since newer versions of FMail also support uncompressed mail,
+  modified the statement about FMail in the setup section
+  (reported by Jan Hoolwerf)
+
+* Added ;SUBJ: option to MailingList TRUNCATE= keyword, allowing
+  to remove a substring from the subject
+
+* Spaces at the end of a line in the configuration file are
+  no longer stripped off, but are retained.
+
+New in SoupGate v1.04/á-1999-03-20
+
+* Now supports setting up your own mailing list!
+  (See chapter "Mailing list configuration" in documentation)
+
+* The SoupGate mailing list serves both as a test of this new
+  feature of SoupGate and as a support forum. To subscribe to
+  this mailing list, send an e-mail to soupgate@softhome.net
+  with subject "subscribe" (without the quotes).
+
+* Now includes (still tiny) BOUNCE.CFG to intercept email
+  bounces. This file should still grow.
+
+* Added TRUNCATE= option to MailingList keyword, allowing to
+  remove ads etc. from mailing lists
+
+* Added SOUPGATE PACK (short: P) and SOUPGATE CHECK (short: C)
+  to the command line options
+
+* Added weekday into date field; although specified as optional
+  in RFC822 some servers apparently require it; also changed
+  from 2-digit to 4-digit year form
+  (reported by Ales Filip & Peter Lacus)
+
+* Fixed bug in UU-decoding routines when lines end in whitespace
+  (reported by Catalin T. Bradu)
+
+* Added /GLOBAL (or /G for short) command line option that
+  allows statistics to be displayed only once at the end
+  (requested by Richard Menedetter)
+
+* Added KillOrigin keyword that allows to suppress tearline & origin
+  (requested by Richard Menedetter)
+
+* Added support for BCopy: for Bcc: (blind carbon copy)
+  (requested by Richard Menedetter)
+
+* Some Cc:'s were not translated to Copy: lines on importing
+  (reported by Richard Menedetter)
+
+* Fixed bug in Copy to Cc: translation on exporting
+  (reported by Richard Menedetter)
+
+* Only one blank line inserted at start of message after
+  inserted information, not between every line of information
+
+* Now always puts Xpost: before the other information (From, To, ...)
+
+* Added LineWidth option to configure the line width for exported
+  messages instead of always 72
+  (requested by Tommi Koivula)
+
+* Added SeparateMSG keyword allowing all exported messages to
+  be in a single Soup MSG file (allows for better error recovery
+  with programs like Souper etc.)
+
+* Much better error recovery for corrupted Soup files; an error message
+  will be printed (and logged) and the files will be renamed to *.BAD
+
+* Fixed bug in JunkCategory causing junk mail detection on categories
+  where it should not have been detecting
+
+* Made explicit in doc that CharSetMap works in both directions
+  (requested by Peter Lacus)
+
+* Removed description of non-existing Decompress keyword from doc
+
+* Uses newer version of PMODE/W (old version caused problems on at
+  least one system)
+  (reported by Patrick Elsaesser)
+
+New in SoupGate v1.03/â-1999-02-04
+
+* Added HeaderInfo option to chose whether name or e-mail address
+  is put in header and/or inserted into message body
+  (requested by Richard Menedetter)
+
+* Added option to configure default character set (previously us-ascii
+  was used when no corresponding CharSetMap could be found)
+  (requested by Richard Menedetter)
+
+* Fixed minor bug in QuoteTo feature, which mistook quotemasks at end
+  of message for quotemasks at beginning of quote
+
+New in SoupGate v1.03/á-1999-01-03
+
+* Several problems fixed in exporting of PKT files attached to
+  messages, especially with the ArcMail style outbound
+  (requested by Richard Menedetter)
+
+* AddrMap translation problems fixed
+  (reported by Andre Grueneberg, Kari Suomela, Pedro Cardoso, Sean Rima,
+   and I'm probably forgetting some more people...)
+
+* empty messages without files attached are no longer exported
+
+* messages without a CHRS kludge now correctly default to us-ascii
+  (reported by Peter Lacus)
+
+* fixed problem that sometimes caused 8bit/quoted-printable when only
+  7bit characters were used
+
+* maxzone for FidoDomain now optional (as was described in doc)
+
+* all commandline options can now be abbreviated
+  (requested by Richard Menedetter)
+
+New in SoupGate v1.03/á-1998-12-27
+
+* DOS executable is now bound with PMODE/W extender because
+  of segment overflow; this also means SoupGate can't run on
+  286 and below anymore
+
+* Added support for charset<->CHRS translation
+  (requested by Peter Lacus)
+
+* Allows exporting of all packets (*.PKT) addressed to the
+  gateway or a route node in a specified directory using the
+  /PKT=<dir> commandline option; this is useful if you have a
+  tosser that does not support uncompressed mail (see included
+  COMPREXP.BAT)
+  (requested by Peter Lacus)
+
+* Fixed bug causing JunkStr keyword not working properly
+  (reported by Patrick Elsaesser)
+
+* Mailing lists now also filtered on Sender and X-From headers
+  (requested by Egor Duda)
+
+* Introduced FidoDomain keyword that allows using other
+  domains than fidonet.org for auto-mapping of addresses
+  and Message-IDs
+  (requested by Andre Grueneberg)
+
+* Fixed bug in fidonet.org message-IDs for points, where a
+  dot was omitted between p# and f#
+  (reported by Andre Grueneberg)
+
+* Fixed problem with SEEN-BYs in mailing lists
+
+* Fixed problem that could turn the MSGID sequential number
+  into a negative value when converted to an ifmail-style
+  decimal message-ID
+
+* Added 'junk' option for JunkAction and OwnOrgAction, which
+  extends 'move' to set the To: field to JunkMail (useful to
+  get around the problem of some tossers forwarding personal
+  mail from the junk mail area)
+
+* Own organization messages will now contain JUNKMAIL kludge
+  (and possibly JUNKMAIL-TO) as well, and their count will no
+  longer be identified as "archives:" but as "own org:" (the
+  former could be too easily confused with archives in the sense
+  of compressed mail files).
+
+* Fixed bug that sometimes caused whitespace to be included
+  in the Newsgroups: line when crossposted messages were
+  exported, causing problems while posting
+
+* Made clear that parameters in configuration file must be
+  separated by spaces, not ^I tabs
+  (reported by Andre Grueneberg)
+
+* Fixed erroneous URL listed in doc file
+
+New in SoupGate v1.02/â-1998-11-04
+
+* Junk mail detection can now be categorized for email and/or
+  news
+  
+* JunkStr strings can now also be checked in news subject
+  (not in message body)
+
+* Extended AddrMap keyword features:
+  - can now select From emailaddress depending on From name
+  - takes over Personal functionality
+
+* Personal keyword now obsolete because of AddrMap extensions
+
+* Fixed bug in automatic From-address translation while exporting
+  (reported by Kari Suomela)
+
+* Fixed bugs in PATH and SEEN-BY lines introduced in v1.01
+  (reported by Sean Rima)
+
+* Now removes Pvt flag for mailing lists
+  (reported by Sean Rima)
+
+* Fixed bugs in To/From name processing while importing
+
+* Updated message-ID translation info in DOC as well
+  as incorrect version number on top (oops)
+
+New in SoupGate v1.01/B-1998-09-12
+
+* Bugfix version for SoupGate v1.01/release
+
+* Fixed bug in MIME encoding routines with an extra padding
+  byte; most decoders didn't notice but e.g. Pine would give
+  an "internal base64 decoder error"
+
+* Now always adds INTL line instead of only for inter-zone
+  netmail, as some tossers (e.g. FastEcho) would show the
+  originating zone as 0 during the tossing process
+
+New in SoupGate v1.01/R-1998-09-01
+
+* First non-gamma release; SoupGate seems to have proved that
+  it has reached a certain stability by now
+
+* Direct mail (DUT/DLO) will now be exported as well; also added
+  ExportAllMail option to export mail on hold as well
+  (requested by Pedro Cardoso)
+
+* Added DecodeDir ... ALL option to decode files attached to emails
+  in that directory as well instead of in the inbound directory
+  WARNING: this may cause problems with your tosser, use with care!
+  (requested by Pedro Cardoso)
+
+* Added TransFidoOrg keyword to auto-translate fidonet.org addresses
+  to the corresponding fidonet addresses when importing
+
+* Improved QuoteTo routines which would sometimes fill in
+  incorrect To-names for newsgroups
+
+* When no Origin is specified and Organization line is empty or
+  not present, the From-address will now be used.
+
+* Files decoded from IgnoreMessageText-messages will now also display
+  information and correctly update the file counter
+
+New in SoupGate v1.01/â-1998-08-29
+
+* Fixed some bugs in the PKT encoding that would cause serious
+  problems on some tossers (e.g. Squish)
+  (reported by Pedro Cardoso)
+
+* Added UseQP option that allows to disable quoted-printable
+  encoding for 8-bit characters
+  (requested by Serge Wizgounoff & Max Alekseyev)
+
+* Added optional From: line that can be inserted in messages
+  that are sent to the gateway for exporting, which allows
+  users to receive replies to their own email-address.
+  (requested by Kari Suomela)
+
+* QuoteTo feature to determine To: name in newsgroups from
+  quote template re-supported. QuoteChar and QuoteMask keywords
+  added to allow configuration of the QuoteTo feature.
+
+* Added SUBJ=<subj> option to the Route keyword, which allows
+  to set the subject for mail transports (for compability
+  with programs like e.g. IREX).
+
+* Multiple To/CC-addresses now supported also for importing;
+  all these addresses will be used for mail filtering
+
+* Will now use Reply-To field for REPLYADDR if present; this
+  address will also be used for mail filtering
+
+* Added IgnoreMessageText keyword to allow routing-messages to
+  be ignored while the files attached to them are decoded
+
+* Added JunkGroup keyword that allows to filter out junk mail
+  based on the newsgroups a message is (cross-)posted in
+
+* The sample junk mail configuration files (JUNK*.CFG) are now
+  included -- use at your own discretion.
+
+* Personal mail is no longer forwarded from mailing lists
+
+* In the import status report, added information about the number
+  of personal messages, decoded files and ignored-text messages
+
+* Added /VERBOSE command line option to display from/to information
+  for every imported e-mail and every exported e-mail/news message
+
+* TEMP environment variable can be overridden with new keyword TempDir
+
+* Fixed bug that incorrectly reported junkmail filtered out by the
+  JunkFromTo keyword as JUNKMAIL: FROM.
+
+* Fixed minor bugs in e-mail address parsing and mailinglist substring
+  matching code
+
+* Fixed hidden memory allocation bug
+
+* Added contact addresses to beginning of doc file
+
+* Included PKTVIEW utility to verify PKT files
+
+New in SoupGate v1.00/â-1998-04-03.
+
+* First public gamma version release
+
+New in SoupGate v1.00/á-1998-03-28.
+
+* Fixed bug that caused the start of some message bodies to be
+  incorrectly interpreted as header information
+
+New in SoupGate v1.00/á-1998-03-14.
+
+* Fixed serious bug in MIME decoding: some files (e.g. those
+  encoded using Microsoft Outlook Express) would be truncated
+  to 0 bytes
+
+* Bug in new MailingList parameter fixed
+
+* SoupGate now allows to split large PKTs, as some tossers
+  would choke on them (not mine, obviously)
+
+* SoupGate now allows to address replies to certain messages in
+  newsgroups to a predefined name, which may then in turn be
+  forwarded to a special personal mail area by another program,
+  e.g. a mail tosser. For that purpose the Redirect keyword
+  has been replaced with the Personal keyword.
+
+* Bug in Internet->Fido MSGID/REPLY conversion fixed
+
+* SoupGate now removes the "end" line after it has decoded
+  a UUencoded file as well
+
+New in SoupGate v1.00/á-1998-03-07.
+
+* Mailinglists that did not have an export email from-address defined
+  would put all kinds of garbage in the from and reply-to addresses
+  of the exported messages
+
+New in SoupGate v1.00/á-1998-01-18:
+
+* Bink-outbound only: files inside flow files with no corresponding
+  mail packet will now be sent as well - for Route-nodes only
+  (allows for routing compressed mail to nodes)
+
+* Messages containing no non-ASCII characters will be
+  encoded using 7bit encoding instead of quoted-printable
+
+* Bink-outbound only: PKT files inside flow-files where not
+  deleted after they were sent, even in non-test mode
+  [so if you've used these, e.g. a binkley + fastecho
+  combination like over here, you may have to clean
+  out "some" PKT files from your outbound directory]
+
+* Messages for mailinglists won't be checked for junkmail anymore
+
+* When Kill was set for JunkAction or OwnOrgAction, the rest of
+  the message file was ignored as well
+
+* Domain keyword removed; Message-ID uses fidonet.org domain
+  and should now be sort of ifmail-compatible
+
+* QuoteTo template recognizing removed; it caused much more
+  trouble than it was worth (it might be re-implemented from
+  scratch later, when all the rest works like it should)
+
+* XPost feature fixed; Souper did not like the Newsgroups: header
+  to be spread across several lines
+
+* No longer assumes anything containing Newsgroups: is news
+
+* Last reference in list is now used for ReplyID instead of first;
+  this allows for much better reply-linking
+
+* MIME encoding now uses 76 characters per line instead of 72
+
+* You can now define an optional from-address for mailinglists
+  (requested by Sean Rima)
+
+* Some more statistics about the imported messages added
+  (# of email, news, mailinglists and junk mail messages)

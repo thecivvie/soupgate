@@ -1,0 +1,336 @@
+
+
+                  млллллм ллллллм млллллм млллллм млллллм
+                  ллмммм  ллмммлл лл   лл лл   лл лл   лл
+                   пппплл ллпппп  лл   лл лл   лл лл   лл
+                  плллллп лл      плллллп плллллп лл   лл
+
+
+
+                                  мл    лпл лпл
+                              л л  л    л л л л
+                               п  ппп п ппп ппп
+
+
+               Easily configurable POP3/SMTP/NNTP SOUP software
+             Copyright 1997-99 by Tom Torfs,  all rights reserved
+
+                                 ў FREEWARE ў
+
+             This software may freely be distributed provided the
+             following conditions are met:
+                (a) no fee is charged other than the distribution
+                    costs; i.o.w. it is not sold for profit
+                (b) no modifications are made to the contents  of
+                    the original distribution archive
+
+             DISCLAIMER:  THE AUTHOR EXCLUDES ANY AND ALL IMPLIED
+             WARRANTIES,  INCLUDING WARRANTIES OF MERCHANTABILITY
+             AND FITNESS FOR A PARTICULAR PURPOSE.     THE AUTHOR
+             MAKES NO WARRANTY OR REPRESENTATION,  EITHER EXPRESS
+             OR IMPLIED,   WITH RESPECT TO THIS SOFTWARE,     ITS
+             QUALITY,  PERFORMANCE,  MERCHANTABILITY,  OR FITNESS
+             FOR A PARTICULAR PURPOSE.   THE AUTHOR SHALL HAVE NO
+             LIABILITY FOR SPECIAL,  INCIDENTAL, OR CONSEQUENTIAL
+             DAMAGES ARISING OUT OF  OR RESULTING FROM THE USE OR
+             MODIFICATION OF THIS SOFTWARE.
+
+             The author can be reached at: [*** NOTE CHANGES! ***]
+                tomtorfs@village.uunet.be [until December 1999]
+                tomtorfs@pandora.be [starting half October 1999]
+                tomtorfs@mail.dma.be [please don't use this anymore]
+                tomtorfs@iname.com [if all else fails]
+                2:292/516 (Fidonet)
+
+             The latest version of this program can be found at:
+                http://members.xoom.com/tomtorfs/soupgate.html
+
+             To be kept up-to-date of new releases (including beta
+             versions), subscribe to the SoupGate support mailing
+             list by writing to soupgate@softhome.net with subject
+             subscribe.
+
+0. Table of contents
+-=-=-=-=-=-=-=-=-=-=
+
+0. Table of contents
+1. Overview
+2. System requirements
+3. Installation
+4. Configuration file
+5. Command line options
+6. Usage
+7. Technical specifications
+
+1. Overview
+-=-=-=-=-=-
+
+Spoon is an easily configurable program to fetch and post mail
+and/or news to/from SOUP packets. It can be used in combination
+with other software to read or convert the SOUP packets.
+
+Currently Spoon supports the following operating systems:
+ * OS/2: spoon2.exe (32-bit console application)
+ * Windows 9X/NT: spoonw.exe (32-bit console application)
+ * Linux: spoon.tgz (contains spoon ELF executable)          
+
+IMPORTANT NOTE FOR LINUX USERS: the executable in spoon.tgz
+is dynamically linked and requires libstdc++.so.2.8, libm.so.6,
+libc.so.6, ld-linux.so.2; if you don't have these and can't get
+them, you can download a statically linked version (which is not
+included in the main archive because of its size) from the above-
+mentioned homepage; an a.out version is not available.
+
+2. System requirements
+-=-=-=-=-=-=-=-=-=-=-=
+
+* Hardware:             IBM-compatible PC with at least a 80386
+                        or compatible CPU
+
+* Operating systems:    OS/2 v2.0 or later with TCP/IP installed
+                        Windows 9X/NT with WinSock TCP/IP
+                        Linux on i386 platform
+
+* SOUP processor:       any program that understands SOUP 1.2
+                        compatible packets, e.g. SoupGate
+
+3. Installation
+-=-=-=-=-=-=-=-
+
+Unpack the distribution archive in its own directory (or in the
+same directory as SoupGate, if you use that program as well).
+If there was no previously installed copy of Spoon, rename the
+sample configuration file spoonsmp.cfg to spoon.cfg. Then configure
+it properly. You should at least make sure the required statements
+(see below) are correctly set up.
+
+You can set up multiple configuration files if you have multiple
+Internet service providers with different settings. You can share
+the common bits of the configuration file with the Include keyword.
+
+You can then use spoon all to fetch and post mail and news.
+See the chapter "Configuration file" or type spoon without
+arguments for more information about the command line usage.
+See the chapter Usage for more detailed information on how
+to call Spoon.
+
+4. Configuration file
+-=-=-=-=-=-=-=-=-=-=-
+
+The default configuration file is named spoon.cfg and should
+be in the same directory as the executable (this can be
+overridden on the command line, see 8. Command line options).
+See spoonsmp.cfg for an example.
+
+Note: you must use spaces to separate parameters, not real ^I
+tabs. This also means you can use real ^I tabs inside parameters.
+All commands are case insensitive.
+
+Include <configname>
+Includes another configuration file (may be useful to import
+global settings into a specific configuration file).
+
+SoupDir <directory>
+Specifies the directory where the SOUP packets are stored.
+This is a required keyword.
+
+HostName <hostname>
+Specifies your hostname, as sent to the SMTP server in the
+HELO command. Note that the SMTP server should accept the
+messages regardless of whether the HELO domain verification
+failed, but it may cause some sort of error logging.
+Required for posting email.
+
+PopUser <username>
+Specifies the POP3 username. Required for fetching email.
+
+PopHost <hostname>
+Specifies the POP3 hostname. Required for fetching email.
+
+PopPass <username>
+Specifies the POP3 password. Required for fetching email.
+
+SmtpHost <hostname>
+Specifies the SMTP hostname. Required for posting email.
+
+SmtpSeparateMail <Yes|No>
+Send From address for each recipient, default is no. Setting to
+yes has been known to cause mail to fail to get delivered, so
+use only if you know it is required.
+
+NntpHost <hostname>
+Specifies the NNTP hostname. Required for fetching/posting news.
+
+NntpUser <username>
+Username for NNTP authentication. Needed only when required by server.
+
+NntpPass <password>
+Password for NNTP authentication. Needed only when required by server.
+
+FetchOnly <emailaddress>
+Fetch only email from the specified email adress. You can specify
+more than one such address (upto 512) in which case only email
+from one of the specified email addresses will be fetched from
+the POP3 server. Email from other email addresses will be
+left on the server. If no FetchOnly keyword is used by
+default all email will be fetched from the POP3 server.
+
+Newsgroups <filename>
+Specifies a text file that contains on every line the name of
+a newsgroup to be downloaded, followed by a colon (if there is
+no colon, Spoon will append one automatically). When Spoon has
+downloaded the articles from the newsgroup, it will append the
+range of downloaded articles after the colon to keep track of
+which articles have already been read. This file is identical
+to the newsrc file used by e.g. Souper.
+If you don't specify a path, the same directory as the executable
+will be assumed. The default filename is newsrc.
+
+LogFile <filename>
+Name of logfile. If no path is specified, it will be put in the
+directory of the executable. Omit or leave empty for no logging.
+
+5. Command line options
+-=-=-=-=-=-=-=-=-=-=-=-
+
+All commands & options may be abbreviated to their first letter
+and are case insensitive.
+
+Commands:
+
+all
+a
+
+Fetch and post email and news.
+
+email
+e
+
+Fetch and post email only (no news).
+
+news
+n
+
+Fetch and post news only (no email).
+
+fetch
+f
+
+Fetch mail and news only (no posting).
+
+post
+p
+
+Post mail and news only (no fetching).
+
+The email/news commandline options can be combined with the
+fetch/post commandline options to fetch resp. post email resp.
+news only.
+
+Options:
+
+/config=<filename>
+/c=<filename>
+
+The configuration will be read from the specified file instead of the
+default file spoon.cfg in the same directory as the executable. Useful
+for multiple configuration files with different settings. The Include
+keyword can then be used to share the common part.
+
+/list=<filename>[;<YYYY-MM-DD[;HH:MM:SS>]]
+/l=<filename>[;<YYYY-MM-DD[;HH:MM:SS>]]
+
+During the news fetch, also downloads a list of newsgroups into the
+specified filename (this may take a while, so have some patience).
+If the optional date and time are present, new newsgroups since that date
+will be listed. If the time is omitted, it will default to 00:00:00.
+The newsgroup list will contain the newsgroup names, possibly followed
+by [no posting] if the newsgroup is read-only.
+Obviously this option will only work in combination with news fetching.
+
+/test
+/t
+
+For testing purposes, you can inform Spoon to not delete any files
+either locally or on the server.
+
+/verbose
+/v
+
+Will display additional information that is normally suppressed.
+
+6. Usage
+-=-=-=-=
+
+If you have correctly configured spoon.cfg, you can simply execute
+spoon all to do all posting and fetching. If you host a SoupGate
+mailing list or otherwise require immediate posting back, this is
+the recommended sequence of events:
+    1. export Soup files     (e.g. using soupgate export)
+    2. launch TCP/IP session
+    3. spoon post            (posts email and news)
+    4. spoon fetch email     (fetches email)
+    5. import Soup files     (e.g. using soupgate import)
+    6. process email         (e.g. by launching your mail tosser)
+    7. export Soup files     (e.g. using soupgate export)
+    8. spoon post            (posts email and news)
+    9. spoon fetch           (fetch rest of email and news)
+   10. end TCP/IP session
+   11. import Soup files     (e.g. using soupgate import)
+   12. process email & news  (e.g. by launching your mail tosser)
+
+If you use multiple email addresses, e.g. a separate email address
+for a mailing list you host, step 4 above can be split up:
+
+   4a. spoon fetch email /config=maillist.cfg
+   4b. spoon fetch email /config=oldaddr.cfg
+   4c. spoon fetch email
+
+Whereby maillist.cfg contains the settings for the mailing list
+email address, oldaddr.cfg contains the settings for an old
+email address that you still monitor but don't use for outgoing
+mail anymore, and spoon.cfg contains the settings for your
+normal email address. Note that these configuration files can
+share their common settings by using Include to include a
+common settings configuration file.
+
+During the fetching of larger email messages and news, Spoon will
+maintain an approximate cps rate counter (characters per second).
+Please keep in mind that this is just an approximation (which may
+also be affected a little by system load), so if you're going to
+complain to your ISP about low cps rates, you should better have
+some more authorative source of information than the cps rate
+approximation by Spoon. However, it can still serve as an
+indication of any problems. Considering that the email and news
+protocols used by Spoon transfer uncompressed text data, you
+should make sure that if you use a modem that it's compression
+features are enabled, and that you use a DTE rate which is
+substantially higher than the DCE rate.
+
+If file sharing is supported by the system, Spoon will open all the
+files it reads in shared/deny none and all the files it writes in
+shared/deny write mode (not implemented in the Linux version).
+
+If Spoon seems to get stuck on the connect (e.g. in case of a badly
+configured server name or non-connected system), and the timeout
+takes too long, you can abort it by pressing Ctrl-C or Ctrl-Break.
+
+7. Technical specifications
+-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Soup packets:     SOUP 1.2
+                  Packets read: Usenet, Unix, MMDF, binary
+                  Packets written: binary
+
+E-mail messages:  RFC-822
+
+Usenet messages:  RFC-1036
+
+POP3 protocol:    RFC-1939
+
+SMTP protocol:    RFC-821
+
+NNTP protocol:    RFC-977
+
+Compiler:         OS/2, Win32: Watcom C++ 10.6
+                  Linux: GCC 2.7.2.3

@@ -1,0 +1,33 @@
+; Sample list configuration file
+
+ListName       the SoupGate mailing list
+ListAddress    soupgate@usa.net
+
+ListArea       SOUPGATE
+ListPassword   I'm not going to tell you
+
+NewStatus      1
+
+KeeperName     Tom Torfs
+KeeperAddress  tomtorfs@mail.dma.be
+
+SubscribeInfo  SUBSCRIB.TPL
+Welcome        WELCOME.TPL
+GoodBye        GOODBYE.TPL
+PasswordInfo   PASSWORD.TPL
+NewPassword    NEWPASS.TPL
+ReadOnly       READONLY.TPL
+BlackList      BLACKLST.TPL
+
+; USER DATA - no comments or extra blank lines after this point!
+ListUsers
++
+tomtorfs@mail.dma.be
+Tom Torfs
+0
+secret!
++
+some_subscriber@somewhere.com
+
+1
+PASSWORD

@@ -1,0 +1,1232 @@
+
+
+        млллллм млллллм лл   лл ллллллм млллллм млллллм ллллллл млллллл
+        ллмммм  лл   лл лл   лл ллмммлл лл  ммм ллмммлл   олн   ллмммм
+         пппплл лл   лл лл   лл ллпппп  лл   лл ллппплл   олн   ллпппп
+        плллллп плллллп плллллп лл      плллллп лл   лл   олн   плллллл
+
+
+
+                                  мл    лпл лпп
+                              л л  л    л л ппл
+                               п  ппп п ппп ппп
+
+
+             Easily configurable Fidonet - Internet gateway program
+             Copyright 1997-2000 by Tom Torfs,  all rights reserved
+
+                                 ў FREEWARE ў
+
+             This software may freely be distributed provided the
+             following conditions are met:
+                (a) no fee is charged other than the distribution
+                    costs; i.o.w. it is not sold for profit
+                (b) modified binary or source versions are not
+                    distributed as if they were original
+
+                                ў OPEN SOURCE ў
+
+             See the open-source license inside the source
+             distribution archive for more details.
+
+             DISCLAIMER:  THE AUTHOR EXCLUDES ANY AND ALL IMPLIED
+             WARRANTIES,  INCLUDING WARRANTIES OF MERCHANTABILITY
+             AND FITNESS FOR A PARTICULAR PURPOSE.     THE AUTHOR
+             MAKES NO WARRANTY OR REPRESENTATION,  EITHER EXPRESS
+             OR IMPLIED,   WITH RESPECT TO THIS SOFTWARE,     ITS
+             QUALITY,  PERFORMANCE,  MERCHANTABILITY,  OR FITNESS
+             FOR A PARTICULAR PURPOSE.   THE AUTHOR SHALL HAVE NO
+             LIABILITY FOR SPECIAL,  INCIDENTAL, OR CONSEQUENTIAL
+             DAMAGES ARISING OUT OF  OR RESULTING FROM THE USE OR
+             MODIFICATION OF THIS SOFTWARE.
+
+             The DOS version of SoupGate is bound with the PMode
+             DOS extender for Watcom C/C++ v1.33, Copyright (c)
+             1994-1997, Charles Scheffold and Thomas Pytel. All
+             rights reserved.
+
+             The author can be reached at: [*** NOTE CHANGES! ***]
+                tomtorfs@pandora.be (preferred)
+                tomtorfs@mail.dma.be
+                tomtorfs@iname.com
+                2:292/516 (Fidonet)
+
+             The latest version of this program can be found at:
+                http://members.xoom.com/tomtorfs/soupgate.html
+
+             To be kept up-to-date of new releases (including beta
+             versions), subscribe to the support mailing list by
+             writing to soupgate@softhome.net with subject subscribe.
+
+0. Table of contents
+-=-=-=-=-=-=-=-=-=-=
+
+0. Table of contents
+1. Overview
+2. System requirements
+3. Installation
+4. Configuration file
+5. Using the gateway
+6. Message-ID generation and reply-linking
+7. File sharing
+8. Command line options
+9. Mailing list configuration
+10. Technical specifications
+
+1. Overview
+-=-=-=-=-=-
+
+SoupGate is an easily configurable, yet quite powerful Fidonet-
+Internet and vice versa gateway program for e-mail/netmail and
+usenet/echomail.
+
+SoupGate supports multiple operating systems for the i386 platform:
+ * DOS: soupgate.exe (32-bit extended DOS application)
+ * OS/2: soupgat2.exe (32-bit console application)
+ * Windows 9X/NT: soupgatw.exe (32-bit console application)
+ * Linux: soupgate.tgz (contains spoon and pktview ELF executables)
+
+IMPORTANT NOTE FOR LINUX USERS: the executables in soupgate.tgz
+are dynamically linked and require libc.so.6 and ld-linux.so.2;
+if you don't have these and can't get them, you can download
+statically linked versions (which are not included in the main
+Soupgate archive because of their size) from the abovementioned
+homepage; a.out versions of the executables are not available.
+
+SoupGate supports both ArcMail- (like e.g. FrontDoor) and Binkley-style
+mailers (some mailers support their own proprietary type of outbound;
+this is not supported by SoupGate). It can automatically convert file
+attaches to/from MIME or UUencoded messages, and it can also be configured
+to filter out junk mail and/or mailing lists.
+
+SoupGate allows to address replies to certain messages in newsgroups to
+a predefined name, which may then in turn be forwarded to a special
+personal mail area by another program, e.g. a mail tosser.
+
+SoupGate can function as a primitive mailing list server, that also works
+from a simple dialup email address.
+
+The following programs are included in the archive:
+
+PKTView - Fidonet Type 2/Type 2+ packet viewer; by Tom Torfs
+   DOS: pktview.exe
+   OS/2: pktview2.exe
+   Windows 9X/NT: pktvieww.exe
+   Linux: pktview (included in soupgate.tgz, see above)
+
+Spoon v1.0 - Simple, free SOUP mail/news client by Tom Torfs
+Included in spoon.zip:
+   OS/2: spoon2.exe
+   Windows 9X/NT: spoonw.exe
+   Linux: spoon.tgz (see spoon.doc for more information)
+
+2. System requirements
+-=-=-=-=-=-=-=-=-=-=-=
+
+* Hardware:             IBM-compatible PC with at least a 80386
+                        or compatible CPU
+
+* Operating systems:    DOS 3.0 or later or an emulation thereof
+                        OS/2 v2.0 or later
+                        Windows 9X 4.0 or later
+                        Windows NT 3.51 or later
+                        Linux on i386 platform
+
+* Fidonet mailer:       ArcMail (e.g. FrontDoor) or Binkley-style
+                        mailer
+
+* Mail tosser/scanner:  any tosser that reads/writes Type 2 (FTS-1)
+                        or Type 2+ (FSC-39) packets
+
+* Internet mail client: any mail/news client that reads/writes
+                        SOUP 1.2-compatible packets, e.g. Spoon,
+                        Souper or VSoup (Spoon included)
+
+3. Installation
+-=-=-=-=-=-=-=-
+
+Unpack the distribution archive in its own directory. If there
+was no previously installed copy of SoupGate, rename the sample
+configuration file sample.cfg to soupgate.cfg. Then configure
+it properly. You should at least make sure the required statements
+(see below) are correctly set up.
+
+You should add the gateway-address to your mail tosser's
+node configuration, SET UP TO USE UNCOMPRESSED MAIL (use *.pkt).
+If your tosser does not support this feature (e.g. older versions
+of FMail are reported to have this problem), you have to decompress
+the packets and then pass them to soupgate export /pkt=<dir> (see
+8. commandline options and the included comprexp.bat example batch
+file). Yes, it's a kludge but it's better than nothing. Ask your
+tosser's author to support uncompressed mail.
+Newer versions of FMail support a separate outbound path for
+uncompressed pkt files, which may also cause use of the /pkt= option
+to be necessary.
+
+For ArcMail-systems, all messages (with or without fileattach)
+in the netmail directory addressed to the gateway or to
+one of the nodes in the Route configuration will be exported,
+provided it doesn't have the Sent or Hold attributes (you
+can force Hold messages to be sent with the ExportAllMail
+option). *.pkt files attached to messages addressed to the
+gateway (not for route nodes) will be exported rather than
+encoded. All other attached files (including compressed mail
+archives, hence the need to set up for uncompressed mail) will
+be UU/MIME encoded.
+
+For Binkley-style mailers, your mail packer should create the
+appropriate ?ut and/or ?lo files (*.pkt files within ?lo files will
+be processed as mail packets just like ?ut files; this is required
+for some tossers)
+By default SoupGate will export out (normal mail), cut (crash mail)
+and dut (direct mail) but it will leave hut (mail on hold) alone;
+you can override this with the ExportAllMail option in which
+case mail on hold will be sent as well.
+When SoupGate finds a file attach it will look for the file
+in the corresponding ?lo file. Files inside the flow file
+that have no corresponding mail packet will also be encoded
+and sent to the node the flow file is destined for (required
+for routing compressed mail to nodes).
+
+SHORT EXPLANATION OF THE COMPRESSED/UNCOMPRESSED MAIL CONFIGURATION:
+* Mail for the gateway, that should be converted to email/news,
+  must be UNCOMPRESSED and must be addressed to the gateway address
+* Mail to be routed to another node WITHOUT being converted to
+  email/news, must be COMPRESSED and the compressed mail bundle
+  must be attached to an uncompressed out/flow file (Binkley),
+  MSG (ArcMail) or PKT (/PKT= option) addressed to this node.
+  The mail will then be sent to the Route node, with the compressed
+  mail bundle UU/MIME encoded inside it.
+  If you use uncompressed mail, it will be converted into email/news,
+  because SoupGate cannot know whether you were intending to send an
+  email to the Route node or rather route the original packet without
+  touching it.
+
+If your tosser supports auto-area creating, it might be handy
+to turn this feature on for the gateway, so that when you
+connect new newsgroups, the corresponding echomail areas
+are automatically created.
+
+You should then make sure soupgate export (can be abbreviated to
+soupgate e) is run before your soup client, and soupgate import
+(or soupgate i) afterwards. You may run them more often, but this
+will be of little use.
+
+Note: if you use Souper as your Soup client be sure you post
+your mail/news _before_ you fetch it. It has the nasty habit
+of overwriting the AREAS file otherwise. Spoon does not
+exhibit this nasty behaviour.
+
+If you wish to operate one or more mailing lists yourself, see
+the chapter "Mailing list configuration". In that case you
+may also wish to add a soupgate pack command in one of your
+daily maintenance batch files, and it may also be desirable to
+post the possible replies after the soupgate import has been
+processed in the same session (this is not required, but it
+allows replies to go out in the same session). If you use
+Spoon, see the Usage chapter in Spoon for information.
+IMPORTANT: If you run a mailing list, you will probably need to
+set up some Junkxxxx statements to catch bouncebacks from mail
+servers ("Mail Delivery Substem: message couldn't be delivered
+for x hours" and similar). Otherwise SoupGate will reply to
+these messages with subscription instructions, which may not
+be what you want.
+
+4. Configuration file
+-=-=-=-=-=-=-=-=-=-=-
+
+The configuration file should be named soupgate.cfg and should
+be in the same directory as the soupgate executable (unless
+overridden on the command line, see 8. Command line options).
+See sample.cfg for an example.
+
+Note: you must use spaces to separate parameters, not real ^I
+tabs. This also means you can use real ^I tabs inside parameters.
+
+FidoAddr     <fidonet-address>
+Fidonet address of the gateway. This should be a point address or
+private node. It should be used *ONLY* by the gateway!
+This is a required statement.
+
+AddrMap      <fidonet-address> <email-address>[,<reply-address>] [<name>]
+This keyword serves different purposes:
+1) Translates <fidonet-address> to <email-address> with Reply-To set
+   to the optional <reply-address> if specified, when exporting
+   and vice versa when importing (Note that some messages cannot
+   be properly routed to points, such as certain mailing lists and
+   most junk mail - the latter they probably won't mind anyway).
+   The first AddrMap statement must be that of the operator of the
+   gateway, since that address will also be used by default if no
+   proper address translation can be done and the imported packets
+   will be addressed to that nodenumber.
+   If multiple AddrMap statements are found for the same address,
+   the first one will be used when translating from that address
+   and they will all be matched when translating to that address.
+2) When no specific address match can be made, the From name
+   will be examined for determining the originating emailaddress
+   for exporting (handy for BBS users) 
+   [only available if name is present]
+3) Imported newsgroup replies to a message with Message-ID
+   having the specified Fidonet address in the form
+   @p#.f#.n#.z#.fidonet.org (or any other domain specified using
+   the FidoDomain keyword with the # prefix) (messages exported by
+   SoupGate will normally have this form) will have their To: field
+   set to <name>. This allows replies to your messages to be forwarded
+   to a personal mail area by e.g. your tosser. SoupGate will also
+   keep count of these messages, displayed after Personal:.
+   [only available if name is present, replaces now obsolete
+    Personal keyword]
+3) Imported email for <name> will be redirected to <fidonet-address>.
+   <name> may contain spaces, but should not be parenthesized or
+   quoted. You can use this, for example, to redirect mail for your
+   points.
+   [only available if name is present, replaces now obsolete
+    Personal keyword]
+There may be upto 1024 address mappings. At least one AddrMap
+statement is required, see above.
+
+MapFidoOrg   <Yes|No>
+Whether to map unlisted addresses to fidonet.org domain (or
+other domain configured by FidoDomain) when exporting instead
+of using the first listed mapped address.
+Default is No.
+
+TransFidoOrg <Yes|No>
+Whether to translate addresses from the fidonet.org domain
+(or other domain configured by FidoDomain using the # option)
+to the corresponding fidonet addresses when importing, or not.
+Default is No.
+
+FidoDomain   <MinZone>[-<MaxZone>] <domainname>
+Fido-style addresses and message-IDs with a zone number between
+MinZone and MaxZone (inclusive) will be translated to/from the
+specified domainname. If no MaxZone is present, only the specified
+zone will be matched.
+The domainname may be of the following forms:
+   domain              all mail to/from these zones will be mapped
+                       to name@domain where name will have spaces
+                       replaced by dots
+   #domain             same as domain, except a [p#.]f#.n#.z#. part
+                       will be prepended to the domain, as used by
+                       the fidonet.org domain
+   address@domain      all mail to/from these zones will be mapped
+                       to the specified single address (the message
+                       ID number is of course still different)
+Upto 256 domains may be defined.
+The default domain for zones that lack an explicit FidoDomain definition
+is #fidonet.org.
+Examples:
+   FidoDomain  50       mydomain.com
+   FidoDomain  100-106  #fidolikegateway.org
+   FidoDomain  123      myownzonegate@somedomain.net
+
+HeaderInfo   <header> <insert>
+
+Determines what information to put in the header and what information
+to insert at the beginning of the message body. <header> can be one
+of Name or Email, depending on which information should be put in the
+header. <insert> is either Yes or No depending on whether the other
+information (email address resp. name) will be inserted into the
+beginning of the message body. If From: or To: information is
+already present (e.g. put in by mailing list software), SoupGate
+won't insert it again.
+The default is to put the name in the header and not to insert a
+line. Note that regardless of this setting, the originating email-
+address will always be written to the REPLYADDR kludge.
+
+NoSpamText   <text>
+Anti-spam text to prepend to address in exported usenet messages.
+For example, if NoSpamText is set to NOSPAM. and a message from
+tomtorfs@mail.dma.be is exported to a newsgroup, this would become
+NOSPAM.tomtorfs@mail.dma.be.
+
+PacketPwd    <password>
+Password to be written to the packets created by the gateway.
+Max. 8 characters. By default, the packets will have no password.
+
+ImportLimit  <size>
+Size limit for imported messages (in bytes), or 0 for none.
+Larger messages will be split and enumerated and a ^ASPLIT kludge
+will be added in accordance with FSC-47.
+Default is 0. This value may not be smaller than 2048 bytes.
+
+MaxPKTSize  <size>
+Size limit for pkt files that SoupGate writes (in kbytes = 1024 bytes),
+or 0 for none. Larger packets will be split. Use this if your tosser
+chokes on very large packets. This value is not exact, but rounded
+up to an integral number of messages. 
+Default is 0. This value may not be smaller than 4 kbytes.
+
+SeparateMSG  <Yes|No>
+When set to Yes, each exported message will have its own Soup msg
+file. When set to No, a lot of messages can be combined into one
+Soup msg file.
+Setting to Yes may be recommendable if you use a program like
+Souper which aborts a msg file entirely as soon as it encounters
+an error trying to post one of the messages inside it, so that
+some messages may have already been posted and some not, which
+makes recovery difficult without either losing messages or
+posting duplicate messages.
+Setting to No may be recommendable if you export a lot of messages,
+because using a separate file for every message may cause waste of
+disk space or fragmentation and will likely be slower.
+Default is No.
+
+LineWidth    <line width>
+Lines are wrapped to maximum this number of characters when exported
+to Soup format. Valid values range from 20 to 199. Default is 72.
+
+DefCharSet   <RFC character set ID>
+Default character set to use for exported messages that don't have
+a corresponding CharSetMap statement. Include double quotes when
+necessary. Default is us-ascii.
+
+CharSetMap   <fido character set ID>[#<level>] <RFC character set ID> [EXPORT|IMPORT]
+Allows mapping a Fido character set ID (optionally with a specified
+level, 1 for 127 and below, 2 for 128 and upwards, see FSC-54) as
+specified in the CHRS: kludge to the MIME RFC charset= character set
+ID and vice versa. If the RFC character set ID requires quotes, these
+must be included here as well.
+If the optional EXPORT is specified, the translation will only be done
+when exporting, and if the optional IMPORT is specified, the translation
+will only be done when importing.
+When no match is found, when exporting the default character set will
+be us-ascii; when importing, no CHRS: kludge will be written.
+Upto 256 CharSetMap keywords may be defined.
+Example:
+   CharSetMap   LATIN-1#2 "ISO 8859-1"
+   CharSetMap   LATIN-2#2 "ISO 8859-2"
+   CharSetMap   IBMPC#2 some_character_set
+
+UseQP        <Yes|No>
+What to do in case the message contains characters outside the
+standardized 7-bit range. When set to Yes, the characters will be
+encoded using the quoted-printable method and the message will
+retain its 7-bit status (this is the default). When set to No,
+the characters will be copied literally and the message's status
+will be set to 8-bit (this may break compatibility with certain
+systems).
+
+QuoteTo      <Yes|No>
+Enables/disables the QuoteTo feature which, in case the To-name
+cannot be found in a Usenet or mailing list message from the
+header information or a AddrMap translation (see AddrMap keyword),
+will attempt to extract the To-name or, if that fails, the
+To-emailaddress from the quote template. For this feature to be
+useful, the QuoteChar and QuoteMask keywords are required as well.
+Default is No.
+
+QuoteChar    <quote-character> <mincolumn-maxcolumn> [<minid-maxid>]
+Specifies a quoting character, which when it is found in a column
+greater than or equal to mincolumn and less than or equal to
+maxcolumn (0-based), and it is not preceded by anything other than
+whitespace, indicates a piece of quoted text. The optional <minid-maxid>
+specifies how many initials may/must precede the quote character.
+This is required for the QuoteTo feature. The character is case
+sensitive.
+You may define upto 256 QuoteChar keywords. E.g.:
+QuoteChar > 2-7 1-3
+QuoteChar > 0-3
+QuoteChar | 0-2
+QuoteChar : 0-2
+
+QuoteMask    <quote-mask>
+Specifies a quoting mask character-sequence, which is assumed
+to follow the name and/or email-address in a quote template.
+When preceding a piece of quoted text (see QuoteChar keyword),
+this name resp. address will be used by the QuoteTo feature.
+The quote mask is not case sensitive, and must occur as a
+separate word(-sequence).
+You may define upto 256 QuoteMask keywords. E.g.:
+QuoteMask write
+QuoteMask writes
+QuoteMask wrote
+QuoteMask writing this
+
+Origin       <text>
+Text to put in origin for echomail messages. Max. 63 characters.
+Default is to use the Organization from the usenet message (if
+that is empty or not present, the From-address will be used).
+
+Organization <text>
+Organization for e-mail / usenet messages. Max. 127 characters.
+Default is none. You should specify a unique organization in order
+to be able to use the OwnOrgAction feature.
+
+OwnOrgAction <ignore|kill|move|junk>
+What to do with messages that come from our own organization
+(usually Usenet messages received back from the server).
+ignore: ignore them, causing pseudo-duplicate messages
+kill:   kill them
+move:   move them to the area defined in OwnOrgArea
+junk:   same as move, and set To line to JunkMail
+Default is ignore.
+
+OwnOrgArea   <areaname>
+Area to move messages coming from our own organization to,
+if OwnOrgAction is set to move. Default is ARCHIVES.
+
+JunkAction   <ignore|kill|move|junk>
+What to do with messages that are identified as junk mail
+(this applies both to e-mail and Usenet messages).
+ignore: ignore them
+kill:   kill them (not recommended since a junk mail filter
+                   can never be made 100% waterproof)
+move:   move them to the area defined in JunkArea
+        (a JUNKMAIL kludge with the reason why the message
+         is considered junk mail is inserted)
+junk:   same as move; in addition the To line is set to
+        JunkMail and a JUNKMAIL-TO kludge with the original
+        To-Address is inserted
+        (this may be useful to avoid your tosser forwarding
+        junk mail messages addressed to you to a personal mail
+        area, if such an option cannot be disabled on a per
+        area basis)
+Default is ignore.
+
+JunkArea     <areaname>
+Area to move messages that are identified as junk mail to,
+if JunkAction is set to move. Default is JUNKMAIL.
+
+JunkFrom     <emailaddress-mask>
+All e-mail/news from an address matching the <emailaddress-mask>
+will be considered junk mail. The mask may contain the
+* wildcard at the beginning or end of the address or
+before or after the at sign (@). There may be only one
+wildcard before and one after the at sign.
+E.g. *@somewhere.com for everybody from domain somewhere.com
+     *@*.junkmail.com for everybody whose domain ends in
+                      .junkmail.com
+     username@* for username from any domain
+You can define upto 4096 JunkFrom keywords.
+
+JunkSubj     <junk-string>
+All e-mail/news messages containing <junk-string> in the subject
+line (case insensitive), will be considered junk mail.
+E.g. JunkSubj  Make Money Fast
+     JunkSubj  Get Rich Quick
+You can define upto 2048 JunkSubj keywords.
+
+JunkStr      <junk-string>
+All e-mail messages containing <junk-string> in the message
+body or in the subject line (case insensitive), will be considered
+junk mail.
+E.g. JunkStr   This is 100% legal
+     JunkStr   This scheme works
+You can define upto 2048 JunkStr keywords.
+Note: for news only the subject line will be checked because:
+   (a) scanning all the messages for all the strings could
+       unacceptably slow down the importing process
+   (b) in some newsgroups there may be a proper discussion
+       that contains some of the strings somewhere
+
+JunkGroup    <junk-group>
+All messages posted or cross-posted in the specified newsgroup will
+be considered junk mail.
+E.g. JunkGroup demon.local
+     JunkGroup alt.fan.karl-malden.nose
+You can define upto 512 JunkGroup keywords.
+
+JunkFromTo   <Yes|No>
+Whether e-mail having the same address in the From and To
+fields will be considered junk mail or not (e-mail only).
+Default is No.
+
+JunkCategory <Email|News|All|None>
+All the junk mail definitions (JunkFrom, JunkSubj, JunkStr,
+JunkGroup) between this keyword and the next JunkCategory
+keyword will be used on Email alone, News alone, both resp.
+none (note: JunkStr will be equivalent to JunkSubj for News,
+see above). Default is All.
+
+ExportMaxTo  <limit>
+Maximum number of To-addresses an exported netmail message
+may have. Set to 0 for the maximum limit of 1024, which is
+also the default.
+You can use this setting to prevent your gateway from
+being used for spamming purposes.
+
+ExportMaxXPost <limit>
+Maximum number of newsgroups an exported echomail message
+may be crossposted in. Set to 0 for the maximum limit of 1024,
+which is also the default.
+You can use this setting to prevent your gateway from
+being used for spamming purposes.
+
+EmailArea    <areaname>
+Name of the mail area where imported e-mail is stored.
+Set to NETMAIL for netmail, which is also the default.
+
+AreaMap      <echomail-area>     <usenet-newsgroup>      <export|import>
+Maps the specified echomail-area and usenet-newsgroup as equivalent for
+gating. The echomail-area and usenet-newsgroup are case insensitive.
+If no specific mapping is provided, gated areas will keep the same name,
+but echomail-areas will be converted to uppercase and usenet-newsgroups
+to lowercase.
+You can optionally define a third parameter, which is either of:
+export   export area only (FidoNet->Internet, but not vice versa)
+import   import area only (Internet->Fidonet, but not vice versa)
+Omit this parameter for gating in both directions (default).
+There may be upto 2048 area mappings.
+
+StripKludges <Yes|No|Some> [<All|Email|News|List>]
+Whether to strip all the Internet header information from the imported
+messages (Yes), strip only lengthy headers Received:, Path: and
+References: (Some), or convert them all into kludges (No).
+The optional second parameter specifies the type of messages this
+setting applies to. Default is All. You can specify multiple
+StripKludges with different settings for the different types.
+When omitted, no kludges will be stripped.
+
+StrictFidoMsgID   <Yes|No>
+When set to Yes, imported messages will be marked with MSGIDs
+using the gateway's address. When set to No, the Internet
+Message-ID will be used instead. See also the chapter
+"Message-ID generation and reply-linking".
+
+KillOrigin    <Yes|No|Email>
+When set to Yes, no tearline or origin will be included in
+any imported messages (this may cause problems for echomail!).
+When set to No, all messages will include a tearline and origin.
+When set to Email, the tearline and origin will not be included
+for email messages, but will for other messages (e.g. news).
+Default is No.
+
+LogFile      <filename>
+Name of logfile. If no path is specified, it will be put in the
+directory of the executable. Omit or leave empty for no logging.
+
+TimeZone     <timezone>
+Your timezone, e.g. +0100. When ommitted, the TZ environment
+variable setting will be used.
+
+QuickScan    <Yes|No>
+If set to Yes, SoupGate will only scan netmail messages that
+were created/modified since the last time SoupGate Export
+was run. This can mean a significant speed boost on ArcMail
+systems. If set to No, all netmail messages will be scanned
+every time; this may be advisable if your system clock is not
+reliable. Default is No.
+Note: if set to Yes, a small file, soupgate.dat, will be created
+in your netmail directory where SoupGate stores the date/time
+of the last export.
+This setting is ignored for Binkley-style mailers.
+
+MailerType   <ArcMail|Binkley>
+Your mailer's method for handling outbound mail. This can be
+either ArcMail (like FrontDoor uses) or Binkley.
+This is a required statement.
+
+ExportAllMail <Yes|No>
+For Binkley type systems, setting this option to Yes will cause
+all ?UT/?LO files to be exported instead of only normal or crash
+mail. For ArcMail type systems, setting this option to Yes will
+cause mail with the Hold attribute to be exported as well.
+Default is No.
+
+InboundDir   <directory>
+Your mailer's inbound directory. The imported packets and files
+will be placed here.
+This is a required statement.
+
+OutboundDir  <directory>
+Your mailer's (base) outbound directory, which is scanned for
+outgoing ?UT and ?LO files.
+This is a required statement for Binkley-style mailers.
+It will be ignored on ArcMail-systems.
+
+BaseZone     <zonenumber>
+The zone number that is in the base outbound directory (your
+zone number). Set to 0 if all zones are in the base outbound
+directory. Default is 0.
+This statement will be ignored on ArcMail-systems.
+
+NetMailDir   <directory>
+Your mailer's netmail directory, which should be in FTS-1 message
+format (also known as *.msg format). This will be scanned for
+outgoing messages and ArcMail-attaches.
+This is a required statement for ArcMail-systems.
+It will be ignored on Binkley-style mailers.
+
+SoupDir      <directory>
+Directory where the SOUP files created by your SOUP-client
+will be placed, and where SoupGate will place its outgoing
+SOUP files.
+This is a required statement.
+
+TempDir      <directory>
+Directory where temporary packets etc. will be written. If this keyword
+is not present, the directory in the TEMP environment variable will be
+used. If that environment variable is not set, the current directory
+will be used. It is highly recommended to set this directory to a
+directory used exclusively for this purpose.
+
+DecodeDir    <directory> [ALL]
+Directory where decoded MIME/UUencoded files from newsgroups will be
+placed, regardless of a possibly specified path in the encoded file.
+Note that this does not apply to files attached to e-mail; these
+will by default always be decoded in the inbound directory, unless
+the ALL option is also used (except for compressed mail, which will
+ALWAYS be decoded in the inbound directory).
+Duplicate files will automatically be renamed (no human intervention
+required).
+WARNING: I do not recommend using the All option unless you are sure
+your tosser won't strip off the path from the filename (e.g. FastEcho
+does); otherwise the file attaches will not point correctly to the
+files!
+NOTE: if for some reason (e.g. unsupported file name syntax) a file
+is decoded but its name can't be determined, the file will be saved
+as <8 hex digits>.ATT (i.e. 00000000.ATT resp. 00000001.ATT etc.).
+
+AttachMail   <ignore|decode|kill>
+What to do with imported MIME/UUEncoded files in e-mail messages.
+ignore = message will be left untouched
+decode = file will be decoded into InboundDir and converted to
+         file-attach (if it can't be decoded, it will be ignored)
+kill = encoded file will be removed
+Default is decode.
+
+AttachNews   <ignore|decode|kill>
+What to do with imported MIME/UUEncoded files in usenet messages.
+ignore = message will be left untouched
+decode = file will be decoded into DecodeDir and replaced by a
+         reference (if it can't be decoded, it will be ignored)
+kill = encoded file will be removed
+Default is ignore.
+
+EncodeFormat <MIME|UU|none>
+Format for exporting file-attaches (including ArcMail-bundles):
+MIME = encode using MIME base-64 method
+UU = encode using UUencode method
+Default is MIME.
+
+Route        <fidonet-address> <email-address> [<password>] [SUBJ=<subj>]
+Mail destined for <fidonet-address> will be exported to <email-address>
+and optionally protected with password <password>.
+Mail imported from <email-address> will optionally be checked
+for the password <password> and if the password is correct,
+will be converted to mail from <fidonet-address> (if the password
+is incorrect it will be treated as regular incoming email from
+the gateway with a password failed message on top). The password
+is case sensitive. Using a password is recommended but may not
+be supported when interfacing with other programs (e.g. IREX,
+TransX, WaterGate, ...).
+There may be upto 1024 route definitions.
+NOTE: you must set up a Route node to receive COMPRESSED mail (not
+raw *.pkt files), because otherwise SoupGate cannot distinguish
+between a packet sent as mail to the node that will have to be
+converted to e-mail/news and a packet meant to be sent as a file attach.
+This will cause all the messages to this node to be processed as mail
+that needs to be gated to e-mail/news, which is most likely not what
+you intended. This is not a big problem, since using compressed mail
+for routing saves you space and time and therefore money.
+Any mail with a file attach under the form *.pkt, *.mo#, *.tu#, *.we#,
+*.th#, *.fr#, *.sa# or *.su# where # is one of 0..9 or A..F and where
+the base filename consists of at least 8 hexadecimal digits, is
+considered a mail transport. When importing, mail transport file
+attaches will always be decoded in the inbound directory (even if
+DecodeDir ALL is used).
+When exporting, if the SUBJ=<subj> option is used, the subject line
+will be set to <subj> for mail transports to this route node (useful
+for compability with e.g. IREX).
+
+Alias       <email-address>   <alias>
+Mail for the gateway addressed to <alias> will be sent to
+<email-address>. <alias> may contain spaces. You can also
+use this to readdress e-mail.
+You can define upto 1024 aliases.
+
+Personal    <fidonet-address> <name>
+* OBSOLETE *
+Equivalent to AddrMap, but with no valid email translation.
+Use AddrMap instead.
+
+MailingList <areaname>  <post-address>[,<from-address>]  <substring>
+            [TRUNCATE=<string>[;SUBJ:<string>]]
+            (must be on one line, but split here for readability)
+Imported email that has <substring> in either the From, To, Reply-To,
+Subject, X-From or Sender fields will be moved to <areaname>. Any mail
+exported from <areaname> will be sent to <post-address>. If <from-address>
+is specified, that will be used as the originating e-mail address,
+otherwise normal address mapping mechanisms will be applied.
+The TRUNCATE=/SUBJ: options are obsoleted by MailingListOption and
+are only supported for backwards-compatibility.
+NOTE: this keyword is only for filtering out mailinglists to which
+you subscribe. Lists served by SoupGate using the ListConfig keyword
+should NOT be specified using this keyword!
+You can define upto 1024 mailing lists.
+
+MailingListOption <areaname> <option>=<value>
+Specifies additional options for mailing lists that have been defined
+using MailingList above.
+Possible options are:
+   truncate=<substring>
+      This option will cause everything after the line in which the specified
+      substring has occurred (including the line itself) to be removed. This
+      may be useful to remove ads etc. from mailing list messages. See also
+      truncend.
+      The substring may end in a space (so be careful for trailing spaces).
+   truncend=<substring>
+      After a previous truncate substring has been encountered, everything
+      after the line where this substring occurs will no longer be removed.
+      Can be useful to remove ads at the top of messages.
+   truncsubj=<substring>
+      Removes the substring from the subject if it is present. This may be
+      useful to remove mailing list tags from messages.
+      The substring may end in a space (so be careful for trailing spaces).
+   author=<none|name|email|both>
+      Whether to include an Author: line at the top of EXPORTED messages
+      and what information to put in it. Default is none.
+As many MailingListOption keywords as required may be used. Please note that
+you must define the MailingList itself *first*.
+
+ListConfig <list configuration file>
+Includes configuration for operating a mailing list. The configuration
+file is described in the chapter "Mailing list configuration".
+Upto 64 ListConfig keywords can be used.
+
+IgnoreMessageText  [*]<substring>
+The message text in imported email from a Route-node that has <substring>
+in either the From, To, Reply-To or Subject fields will be ignored; the
+optional * indicates that the substring should be the entire field, not
+just occur in it. Attached files will be decoded, however. This option is
+useful for automated routing, where you are only interested in the files,
+not in the carrying messages. You can define upto 512 IgnoreMessageText
+keywords.
+E.g. IgnoreMessageText FTN Transport
+     IgnoreMessageText *mail
+
+5. Using the gateway
+-=-=-=-=-=-=-=-=-=-=
+
+Once installed, you can simply use your SoupGate gateway for
+e-mail by writing a message to its address, with the e-mail
+address you wish to write to as To name, or put UUCP as To
+name and put To: <email-address> as the first line of the
+message body (optionally followed by a blank line) if the
+email-address doesn't fit in the To name field.
+You can also send the same mail to multiple persons, by
+specifying additional To: <email-address> lines at the
+beginning of the message body; you can use this with
+or without the UUCP style addressing.
+You can also use Copy: instead of To: if you want to send carbon
+copies of the message to other recipients or BCopy: for a blind
+carbon copy (hidden recipient). See also the ExportMaxTo setting
+for how to put a limit on the maximum number of To: and Copy:/Bcopy:
+addresses, to avoid spamming through your gateway.
+As the originating address, the gateway will use the emailaddress
+in the AddrMap statement (or a fidonet.org address, see MapFidoOrg
+keyword), unless a specific address is given by putting From:
+followed by the originating email-address in the beginning of the
+message (before or after any possible To/Copy/BCopy/Xpost lines).
+This allows other people who don't have a corresponding AreaMap
+statement to receive replies to their email-address without having
+to use the fidonet.org domain.
+
+Echomail messages written in gated-Usenet areas will automatically
+be converted to Usenet messages via the same principle as for e-mail;
+however the To-information will be converted to an X-Comment-To field
+since Usenet doesn't support To-fields.
+You can crosspost into multiple newsgroups (this does not work for
+Fidonet echomail areas!) by putting the other newsgroups after
+XPost: on the first line of the message. See also the ExportMaxXPost
+setting for how to put a limit on the maximum number of crossposted
+newsgroups to avoid spamming through your gateway.
+Imported messages from different newsgroups will have this line as
+first line automatically, so that when you reply you can unquote this
+line and put it first, and the gateway program will automatically
+crosspost your reply to the appropriate newsgroups.
+
+All e-mail that arrives will automatically be gated to netmail
+(or to an e-mail area) from the gateway address to the fidonet
+address in the corresponding AddrMap statement.
+If there is no corresponding AddrMap statement, which is quite
+unlikely if SoupGate is configured properly, the first one will
+be used.
+
+Usenet messages will be imported into an echomail area
+with the same name as the newsgroups but converted to
+uppercase (e.g. comp.lang.c becomes COMP.LANG.C),
+unless an AreaMap statement configures it otherwise.
+For the From-field the name of the originator will be
+used, and if that is not present the email-address of
+the originator.
+If QuoteTo is set to No, the To-line will be set to "All",
+unless the To name can be obtained from the header info
+or by a personal name translation (see AddrMap).
+If QuoteTo is set to Yes, SoupGate will attempt to extract the
+To-name from the quote-template (see QuoteTo, QuoteChar
+and QuoteMask keywords).
+
+For both imported e-mail and Usenet messages, proper
+REPLYTO and REPLYADDR kludges will be added to the
+message to correctly handle replies to gated messages.
+Also, INTL kludges and if necessary TOPT and FMPT
+kludges will be added to netmail messages.
+If the message was addressed to more than one person
+in the To: or Cc:/Bcc: fields, To: resp. Copy:/BCopy:
+lines will be inserted at the beginning of the message.
+If a news message is crossposted to more than one
+newsgroup, XPost: lines will be inserted at the beginning
+of the message.
+The Internet header information will be converted to
+FidoNet kludges, unless StripKludges is set to Yes, in
+which case they will be removed.
+For echomail, a valid tearline and origin will be
+appended.
+
+6. Message-ID generation and reply-linking
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Generated E-mail/Usenet messages will be marked with a Message-ID
+like this: <msgidnr>@[p#].f#.n#.z#.fidonet.org where <msgidnr> is
+the MSGID unique value in decimal representation, and the fidonet
+address is encoded in the domain (similar to the scheme ifmail
+uses). If no MSGID is present or the MSGID unique value cannot be
+interpreted as a valid hexadecimal number to be converted to decimal
+representation, its CRC-32 will be used instead. However, if an
+Internet Message-ID is found in the MSGID that will be used as the
+Message-ID instead.
+
+When generating Fidonet messages, by default the complete internet
+Message-ID will be used as the "originating address" field of the MSGID,
+including angle brackets (FSC-41 does not require this field to be a
+Fidonet address). However, if you set StrictFidoMsgID to Yes, the
+gateway's address will be used instead (note that in that case there
+is a 1:4,294,967,296 chance of a duplicate MSGID being generated).
+The CRC-32 of the Internet message-ID will be used as the unique value.
+If the message needs to be split in multiple parts because it exceeds
+the ImportLimit, only the first part will have a MSGID.
+Should an Internet message not contain a Message-ID, no MSGID will
+be generated.
+
+If an In-Reply-To or References kludge is found, the same process will
+be used to generate a REPLY kludge. This method allows for reply-linking
+based on MSGID/REPLY kludges.
+
+7. File sharing
+-=-=-=-=-=-=-=-
+
+If file sharing is supported by the system, SoupGate will open all the
+files it reads in shared/deny none and all the files it writes in
+shared/deny write mode (not implemented in the Linux version).
+
+8. Command line options
+-=-=-=-=-=-=-=-=-=-=-=-
+
+All commands & options may be abbreviated to their first letter
+and are case insensitive.
+
+Commands:
+
+import
+i
+
+Import mail from Internet format (Soup) to Fidonet format (pkt)
+
+export
+e
+
+Export mail from Fidonet format (*.msg or *.?ut/*.?lo) to Soup format
+
+pack
+p
+
+Packs the mailing list configuration files by removing deleted
+user records.
+
+check
+c
+
+Reads & checks all configuration files, does nothing otherwise.
+
+Options:
+
+/pkt=<packet directory>
+/p=<packet directory>
+
+For use in export mode only. This keyword indicates that instead
+of the regular exported mail search algorithms (for Binkley or
+ArcMail style outbounds) all the *.pkt packets ADDRESSED TO THE
+GATEWAY OR ONE OF THE ROUTE NODES in the specified directory
+(with or without trailing (back)slash) will be exported.
+This feature is useful if your tosser does not support uncompressed
+mail. See comprexp.bat for an example.
+
+/config=<filename>
+/c=<filename>
+
+The configuration will be read from the specified file instead of the
+default file soupgate.cfg in the same directory as the executable.
+
+/test
+/t
+
+For testing purposes, you can inform SoupGate to not delete any files
+it's processed or change any message attributes to sent, by specifying
+/test on the commandline.
+
+/verbose
+/v
+
+For import and export, will display from/to information for every e-mail
+message that is imported or exported (not for mailing lists or junk mail
+etc.). For pack all removed user records are reported.
+
+/global
+/g
+
+Displays the statistics only once at the end, instead of for every file.
+
+9. Mailing list configuration
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+The mailing list configuration files referenced by the ListConfig
+keyword in the configuration file allow to set up your own mailing
+list that can be gated to/from a Fidonet area, allowing control
+over who is subscribed, who is on a "black list" of offenders
+that are not allowed to subscribe and/or to post, etc.
+
+All mail sent out on the mailing list will use the Bcc: (blind
+carbon copy) feature to make sure the e-mail addresses of the
+subscribers are kept confidential.
+
+You will probably need to set up some Junkxxxx statements to catch
+bouncebacks from mail servers ("Mail Delivery Substem: message
+couldn't be delivered for x hours" and similar). Otherwise SoupGate
+will reply to these messages with subscription instructions, which
+may not be what you want.
+
+The mailing list configuration file is a plain ASCII file, which
+allows for it to be edited by any text editor. All lines beginning
+with ; are comments except in the ListUsers configuration.
+
+The following configuration keywords can be used in the file:
+
+ListName <list name>
+
+The name of the mailing list, e.g. "SoupGate mailing list".
+This is a required keyword. Used in template macros and as
+originating name of template messages.
+
+ListAddress <email-address>
+
+All mail to/from the mailing list will use this address. You need
+a separate email-address for the list. This is required because
+otherwise mail for the mailing list and regular mail may get
+confused. There are several places where you can get a free
+email-address for your mailing list if you don't have one for it.
+
+When mail for this e-mail address is received (only from real
+email, you cannot subscribe to a mailing list using the gateway;
+in that case you should use the ListArea keyword to gate the list
+into a Fidonet area allowing users without e-mail to participate
+as well), it will be processed separately from regular gated mail.
+
+First the subject is checked. If it starts with subscribe (case
+insensitive), the message will be considered a subscription message.
+If ListPassword is not used this will suffice. Otherwise, the word
+after subscribe must be the user's personal password (case sensitive!),
+calculated from the user's email address and the ListPassword.
+If a subscribe is successful the Welcome template will be sent (when
+present).
+
+If the subject starts with unsubscribe (when ListPassword is used
+followed by the user's password) the user will be removed from the
+mailing list and the Goodbye template will be sent (when present).
+If the subject starts with changepass followed by the old password and
+then the new password, the user's password will be changed (when
+passwords are used) and the NewPassword template will be sent.
+Passwords may not contain whitespace and are case sensitive.
+
+For all commands (subscribe, unsubscribe and changepass), if a
+password is omitted or incorrect when required, the PasswordInfo
+template will be sent (when present). A subscribe command with
+the correct password from a user that is already subscribed will be
+ignored and the Welcome template will be sent (again). An unsubscribe
+or changepass command from a user that is not subscribed will be ignored
+and the SubscribeInfo template will be sent.
+
+Subscribing, unsubscribing or changing passwords from another
+address than the subscribing address is NOT possible. This is
+a matter of privacy and security. If a subscriber's address changes,
+he will have to unsubscribe from his old address and then subscribe
+using his new address. If that is impossible, the list operator
+may have to intervene.
+
+For all other subjects, if the mail comes from somebody who is not
+subscribed (or at least not with the address he/she is posting from),
+the SubscribeInfo template is sent (when present). If the mail comes
+from somebody who is subscribed, the post will be submitted into the
+mailing list (that is, sent out to everybody on the mailing list and
+optionally gated into the corresponding Fidonet area). The posts from
+the mailing list will keep the From: and To: info from the original
+message, but will put the mailing list's address in the Reply-To:
+and the Sender: field. If the subscriber is listed as read-only,
+the ReadOnly template is sent (when present).
+
+When mail (regardless of subject) is received for the mailing list
+from somebody who is listed as a blacklist user in the ListUsers
+configuration, he will always receive the BlackList template
+(when present).
+
+See the included sample templates (*.TPL) to get an idea on how
+to inform your users how the list operates.
+
+ListArea <area name>
+
+The name of a Fidonet area to/from which the mailing list will
+be gated. This keyword is optional. When omitted, the mailing
+list will not be gated. When used, all mails submitted to the
+mailing list will be gated into the area, and all mails posted
+in the area will be sent out to the mailing list's subscribers.
+
+ListPassword <password string>
+
+When this keyword is used, via an algorithm used on a combination
+of the password string and the user's e-mail address, a (virtually)
+unique password will be calculated for every (potential) subscriber,
+which may later be changed by the user using the changepass
+command, if he/she wishes to do so. Passwords may not contain
+whitespace and are case sensitive.
+
+The password will have to be used for subscribe and unsubscribe
+commands, otherwise the PasswordInfo template will be sent.
+When ListPassword is omitted no password will be required to subscribe
+to or unsubscribe from the mailing list.
+
+This feature is designed to be used together with a PasswordInfo
+template that uses the @PASSWORD@ macro to disclose the user's
+password. That way subscribe and unsubscribe commands that do
+not use the correct password will have to be confirmed after
+the correct password has been received. That makes it very
+difficult to fake a subscribe or unsubscribe message from
+somebody else, since the templates will always be sent to
+the same e-mail address as the subscription address. If a
+person who is subscribed wishes to unsubscribe he can do
+so in one message (no confirmation needed) provided he
+remembers his password.
+
+A more restrictive use of this feature (which is not really what
+it was intended for but allows for more control over who is
+allowed to subscribe) may be by not disclosing the password
+in the PasswordInfo template, so that the list operator will
+either have to manually subscribe the person or look in the
+SoupGate log file for the expected password (in combination
+with no PasswordInfo template present this way subscribe messages
+will disappear into oblivion); even with such a restrictive
+system unsubscribe commands can be allowed by disclosing the
+password in the Welcome template. Note that I do not recommend
+this use of the ListPassword feature, but if you need it, it's
+there.
+
+Users can change their password with the changepass command.
+
+NewStatus <status>
+
+Status for new subscribers. See the ListUsers description for
+information about the status. Default is 1.
+
+KeeperName <name>
+
+Name of list keeper. Optional. Only used in template macros.
+
+KeeperAddress <name>
+
+Address of list keeper. Optional. Used in template macros,
+and in the Errors-To: and Return-Path: headers.
+
+SubscribeInfo <templatefile>
+Welcome <templatefile>
+GoodBye <templatefile>
+PasswordInfo <templatefile>
+NewPassword <templatefile>
+ReadOnly <templatefile>
+BlackList <templatefile>
+
+The SubscribeInfo template file will be sent when a user who
+is not subscribed tries to post a message to the mailing list.
+The Welcome template will be sent when a user has successfully
+subscribed himself to the list.
+The GoodBye template will be sent when a user has successfully
+unsubscribed himself from the list.
+The PasswordInfo template file will be sent when a user omits a
+password or uses an incorrect password in a subscribe/unsubscribe
+message. See ListPassword for more information.
+The NewPassword template file will be sent when a user successfully
+changed his/her password.
+The ReadOnly template will be sent when a read-only user tries
+to post a message to the mailing list.
+The BlackList template will be sent when a blacklist user
+tries to send any mail to the mailing list.
+When any of these templates is missing, no mail will be sent
+(e.g. in the case of BlackList this may be an option).
+
+In the template the following macros can be used (these
+are case sensitive):
+
+@LISTNAME@        name of the mailing list
+@LISTADDRESS@     address of the mailing list
+@LISTAREA@        Fidonet area for the mailing list
+@YOURNAME@        user's name
+@YOURADDRESS@     user's address
+@PASSWORD@        user's current password
+@KEEPERNAME@      list keeper's name
+@KEEPERADDRESS@   kist keeper's address
+
+Sample templates are included as SUBSCRIB.TPL, WELCOME.TPL,
+GOODBYE.TPL, PASSWORD.TPL, READONLY.TPL and BLACKLST.TPL.
+
+ListUsers
+
+Everything that follows this keyword upto the end of the file
+is raw user data. No other keywords may be included anymore.
+Comments or blank lines will be considered data as well. Every
+user definition must consist of the following 3 lines with no
+blank lines between lines or user definitions:
+
+line 1: + indicates user record follows, * indicates deleted record
+line 2: email-address (this is the key on which users are searched)
+line 3: name (will be a blank line if unknown or the same as
+              email-address)
+line 4: status
+        0 = administrative subscriber (currently same as 1)
+        1 = normal subscriber (reading and writing allowed)
+        2 = read-only subscriber (writing not allowed)
+        3 = blacklist user (not allowed to subscribe, read or write)
+        Users are unable to change the status they receive
+        when they subscribe, as specified in the NewStatus keyword.
+        Only the list maintainer (probably you) can change it.
+        Perhaps in later versions of Soupgate users of the 0 status
+        (administrative subscriber) may be able to remotely modify user
+        information etc.
+line 5: user's password
+        Initially calculated as explained in the paragraph on ListPassword,
+        may be changed later by the user.
+        When ListPassword is omitted, this field will always be empty.
+
+10. Technical specifications
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Fido packets:     FTS-1 (Type 2) and FSC-39 (Type 2+)
+
+Netmail messages: FTS-1
+
+Extended kludges: FSC-41, FSC-47, FSC-54
+
+Soup packets:     SOUP 1.2
+
+E-mail messages:  RFC-822
+
+Usenet messages:  RFC-1036
+
+MIME extensions:  RFC-1341
+
+Compiler:         DOS, OS/2, Win32: Watcom C 10.6
+                  Linux: GCC 2.7.2.3
+
+DOS extender:     PMODE For Watcom C/C++ - v1.33
+                  Copyright (c) 1994-1997, Charles Scheffold
+                  and Thomas Pytel. All rights reserved.
+
+                                 -= End of file -=
